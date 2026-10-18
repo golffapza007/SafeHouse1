@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Safehouse — A space to be heard</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#17231f;--muted:#718078;--paper:#f5f3ed;--white:#fffefa;--green:#c8f169;--green-dark:#274c3b;--line:#e2e5dc;--red:#d94f45;--shadow:0 24px 70px rgba(24,44,34,.10)}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font-family:'Prompt',sans-serif;min-height:100vh;padding:24px;display:flex;align-items:center;justify-content:center}
+button,input,select,textarea{font:inherit}.shell{width:min(1180px,100%);min-height:760px;background:var(--white);border:1px solid #e8e8df;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:330px 1fr;box-shadow:var(--shadow)}
+.rail{background:var(--green-dark);color:#f8f9ef;padding:34px 30px;display:flex;flex-direction:column;position:relative;overflow:hidden}.rail:after{content:"";position:absolute;width:280px;height:280px;border:1px solid rgba(255,255,255,.14);border-radius:50%;bottom:-120px;left:-90px;box-shadow:0 0 0 30px rgba(255,255,255,.035),0 0 0 60px rgba(255,255,255,.025)}
+.brand{display:flex;align-items:center;gap:12px;font-weight:600;font-size:19px;letter-spacing:-.5px}.brand-mark{width:38px;height:38px;border-radius:13px;background:var(--green);display:grid;place-items:center;color:var(--green-dark);font-size:22px}.rail-kicker{margin-top:80px;color:#c6d5c8;font-size:11px;letter-spacing:2.3px;text-transform:uppercase}.rail h2{font-size:34px;line-height:1.28;letter-spacing:-1.2px;font-weight:500;margin:14px 0}.rail h2 em{font-style:normal;color:var(--green)}.rail-copy{font-size:13px;line-height:1.9;color:#d1ddd3;max-width:245px}.rail-foot{margin-top:auto;padding-top:24px;font-size:11px;color:#bdcfc1;display:flex;align-items:center;gap:9px}.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 0 4px #ffffff18}
+.workspace{padding:36px clamp(24px,4vw,60px);display:flex;flex-direction:column;min-width:0;overflow-y:auto;max-height:88vh}
+.top-nav-tabs{display:flex;gap:8px;background:#ebede4;padding:5px;border-radius:100px;margin-bottom:28px;width:fit-content}
+.tab-btn{border:0;background:transparent;padding:8px 18px;border-radius:100px;font-size:12px;font-weight:600;color:var(--muted);cursor:pointer;transition:.2s}
+.tab-btn.active{background:var(--green-dark);color:white;box-shadow:0 2px 8px rgba(39,76,59,.18)}
+.topline{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;color:var(--muted);font-size:12px}.step-tag{border:1px solid var(--line);border-radius:100px;padding:8px 13px;display:flex;align-items:center;gap:8px}.step-tag span{width:7px;height:7px;border-radius:50%;background:#7ca75b}
+.content{width:100%;max-width:620px;margin:0 auto}
+.eyebrow{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#6b8a63;font-weight:600;margin-bottom:10px}h1{font-size:clamp(26px,2.8vw,36px);letter-spacing:-1.2px;line-height:1.25;margin:0 0 10px;font-weight:600;color:var(--ink)}.subtitle{font-size:13px;line-height:1.8;color:var(--muted);margin:0 0 24px}
+.form-grid{display:grid;grid-template-columns:1fr;gap:16px}.form-group{margin:0;text-align:left}.form-group label{display:block;font-size:12px;font-weight:600;color:#34463c;margin-bottom:6px}.form-control{display:block;width:100%;border:1px solid #dfe4da;background:#fbfbf7;border-radius:13px;padding:12px 14px;font-size:13px;color:var(--ink);outline:none;transition:.2s}.form-control:focus{border-color:#6e9561;box-shadow:0 0 0 4px #c8f16935;background:#fff}
+.btn-submit{width:100%;border:0;border-radius:13px;background:var(--green);color:#1d3425;padding:14px 18px;font-weight:600;font-size:13px;cursor:pointer;margin-top:8px;transition:transform .2s,background .2s}.btn-submit:hover{background:#b8e65a;transform:translateY(-1px)}.btn-submit:disabled{background:#cbd0c7;cursor:not-allowed;transform:none}
+.privacy-notice{background:#f3f6ed;border:1px solid #e1e9d8;border-radius:14px;padding:14px 16px;font-size:11px;color:#687768;line-height:1.8;margin-top:20px}.privacy-notice strong{color:#36523e}
+.user-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;background:#f4f5ee;border:1px solid var(--line);padding:10px 14px;border-radius:14px;font-size:11px;color:var(--muted);margin-bottom:24px}.user-bar strong{color:var(--ink)}.btn-link{background:transparent;border:0;color:#3c6849;font-size:11px;font-weight:600;cursor:pointer;padding:4px}.btn-logout{color:var(--red)}
+.mic-box{border:1px solid var(--line);background:linear-gradient(135deg,#f6f8f0,#f0f3e8);border-radius:22px;padding:32px 20px;text-align:center;margin:20px 0;transition:.25s}.mic-box.recording{border-color:#efaaa5;background:#fff3f1}.btn-mic{width:80px;height:80px;border-radius:26px;background:var(--green-dark);color:white;border:0;font-size:28px;cursor:pointer;box-shadow:0 10px 24px #274c3b25;transition:.2s}.btn-mic:hover{transform:translateY(-3px)}.btn-mic.recording{background:var(--red);animation:pulse 1.5s infinite}@keyframes pulse{0%{box-shadow:0 0 0 0 #d94f4540}70%{box-shadow:0 0 0 17px #d94f4500}100%{box-shadow:0 0 0 0 #d94f4500}}.status-text{margin-top:14px;font-size:12px;color:#53635a;font-weight:500}.result-section{display:none;background:#fbfbf7;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:16px}.result-title{font-size:12px;font-weight:600;color:#36523e;margin-bottom:8px}audio{width:100%;height:38px;margin-bottom:10px}.reply-card{background:#f3f8ee;border:1px solid #dce8d4;border-radius:15px;padding:16px;margin-top:16px;text-align:left}.reply-card h4{margin:0 0 8px;color:#31553b;font-size:13px}.reply-card p{margin:0;font-size:12px;color:#4b6650;line-height:1.8;white-space:pre-wrap;overflow-wrap:anywhere}
+.case-card{background:#fbfbf7;border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:18px;text-align:left}.case-meta{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;border-bottom:1px solid var(--line);padding-bottom:10px;font-size:12px}.badge-status{padding:4px 10px;border-radius:100px;font-size:11px;font-weight:600}.status-pending{background:#fef3c7;color:#d97706}.status-replied{background:#dcfce7;color:#15803d}
+textarea.form-control{height:90px;resize:vertical}
+.bottom-note{font-size:10px;color:#9aa39a;text-align:center;margin-top:24px}
+.audio-player-box{background:#f0f4ee;padding:12px;border-radius:16px;border:1px solid #e2e8dc;margin-top:8px}
+.audio-action-link{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;color:#274c3b;font-weight:600;text-decoration:none;background:#ffffff;padding:6px 12px;border-radius:8px;border:1px solid #d0d8c8;transition:.2s}
+.audio-action-link:hover{background:#e8f0e4}
+@media(max-width:760px){body{padding:0;background:var(--white);align-items:stretch}.shell{border:0;border-radius:0;min-height:100vh;grid-template-columns:1fr;box-shadow:none}.rail{padding:23px 24px 25px;min-height:210px}.rail-kicker{margin-top:28px}.rail h2{font-size:27px;margin:8px 0}.rail-copy{display:none}.rail-foot{padding-top:18px}.workspace{padding:24px 20px 32px}.topline{margin-bottom:24px}.content{margin:0 auto}.user-bar{margin-bottom:20px}.mic-box{padding:28px 16px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="rail">
+  <div class="brand"><div class="brand-mark">s.</div><span>safehouse</span></div>
+  <div class="rail-kicker">A space to be heard</div>
+  <h2>ไม่จำเป็นต้อง<br>เก็บทุกอย่างไว้<br><em>คนเดียว</em></h2>
+  <p class="rail-copy">พื้นที่ปลอดภัยสำหรับพนักงานในการระบายความรู้สึก และรับฟังคำแนะนำจากผู้เชี่ยวชาญ</p>
+  <div class="rail-foot"><span class="online-dot"></span> พื้นที่รับฟังอย่างใส่ใจ</div>
+</aside>
+
+<main class="workspace">
+  <!-- แท็บสลับสิทธิ์การเข้าใช้งาน -->
+  <div class="top-nav-tabs">
+    <button class="tab-btn active" id="tabEmployeeBtn">👤 สำหรับพนักงาน</button>
+    <button class="tab-btn" id="tabCounselorBtn">🩺 สำหรับนักจิตวิทยา</button>
+  </div>
+
+  <div class="topline">
+    <span id="toplineText">EMPLOYEE WELLBEING / PRIVATE SPACE</span>
+    <div class="step-tag"><span></span> <span id="stepTagText">พื้นที่ส่วนตัว</span></div>
+  </div>
+
+  <div class="content">
+
+    <!-- ================= 1. ฝั่งพนักงาน: หน้า LOGIN ================= -->
+    <div id="loginView">
+      <div class="eyebrow">Welcome to your safe space</div>
+      <h1>เริ่มต้นจากการ<br>ได้พูดออกมา</h1>
+      <p class="subtitle">เข้าสู่ระบบเพื่อใช้พื้นที่ระบายความรู้สึก ข้อมูลการเข้าสู่ระบบใช้สำหรับยืนยันสิทธิ์ตามระบบที่กำหนด</p>
+      <form id="loginForm" class="form-grid">
+        <div class="form-group"><label>รหัสพนักงาน (Employee ID)</label><input type="text" id="empId" class="form-control" placeholder="เช่น EMP-10042" required></div>
+        <div class="form-group"><label>แผนก (Department)</label><select id="deptCode" class="form-control"><option value="DEPT-IT">ไอทีและเทคโนโลยี (IT)</option><option value="DEPT-MARKETING">การตลาด (Marketing)</option><option value="DEPT-SALES">ฝ่ายขาย (Sales)</option><option value="DEPT-HR">ทรัพยากรบุคคล (HR)</option><option value="DEPT-OPERATION">ปฏิบัติการ (Operations)</option></select></div>
+        <div class="form-group"><label>รหัสผ่าน (Password)</label><input type="password" id="password" class="form-control" placeholder="กรอกรหัสผ่าน" required></div>
+        <button type="submit" class="btn-submit">เข้าสู่พื้นที่ส่วนตัว ↗</button>
+      </form>
+      <div class="privacy-notice"><strong>ความเป็นส่วนตัวของคุณสำคัญ</strong><br>ระบบจะส่งไฟล์เสียงต้นฉบับ พร้อมรหัสพนักงานและแผนกไปยังบริการที่เชื่อมต่อ โปรดส่งเฉพาะข้อมูลที่คุณยินดีเปิดเผย</div>
+    </div>
+
+    <!-- ================= 2. ฝั่งพนักงาน: หน้า RECORDING ================= -->
+    <div id="recordingView" style="display:none;">
+      <div class="user-bar">
+        <div>แผนก <strong id="displayDept">DEPT-IT</strong> &nbsp;·&nbsp; <span style="color:#4c8c5a">● พื้นที่รับฟังส่วนตัว</span></div>
+        <div><button class="btn-link" id="checkInboxBtn">กล่องข้อความ ↗</button><button class="btn-link btn-logout" id="empLogoutBtn">ออกจากระบบ</button></div>
+      </div>
+      <div class="eyebrow">Your private space</div><h1>วันนี้อยากเล่า<br>เรื่องอะไรบ้าง?</h1><p class="subtitle">กดปุ่มเพื่อเริ่มบันทึกเสียง เมื่อเสร็จแล้วคุณสามารถฟังเสียงต้นฉบับก่อนส่งได้</p>
+      <div class="mic-box" id="micBox"><button class="btn-mic" id="recordBtn">🎙️</button><div class="status-text" id="statusText">กดปุ่มเพื่อเริ่มบันทึกเสียง</div></div>
+      <div class="result-section" id="resultSection"><div class="result-title">ฟังเสียงต้นฉบับก่อนส่ง</div><audio id="audioPlayer" controls></audio><button class="btn-submit" id="sendBtn">ส่งเสียงเพื่อขอคำแนะนำ ↗</button></div>
+    </div>
+
+    <!-- ================= 3. ฝั่งพนักงาน: หน้า INBOX ================= -->
+    <div id="inboxView" style="display:none;">
+      <div class="user-bar"><span>กล่องติดตามคำตอบ</span><button class="btn-link" id="backToRecordBtn">← กลับหน้าอัดเสียง</button></div>
+      <div class="eyebrow">Follow-up messages</div><h1>ตรวจสอบคำตอบ</h1><p class="subtitle">กรอกรหัส Log ID ที่ได้รับหลังส่งเสียง เพื่อค้นหาข้อความตอบกลับจากผู้เชี่ยวชาญ</p>
+      <div class="form-group"><label>รหัสรายการ (Log ID)</label><input type="text" id="searchLogId" class="form-control" placeholder="เช่น LOG-1001" required></div>
+      <button type="button" class="btn-submit" id="searchBtn" style="margin-top:12px;">ค้นหาข้อความ ↗</button>
+      <div id="replyResult"></div>
+    </div>
+
+    <!-- ================= 4. ฝั่งนักจิตวิทยา: หน้า LOGIN ================= -->
+    <div id="counselorLoginView" style="display:none;">
+      <div class="eyebrow">Counselor Portal</div>
+      <h1>เข้าสู่ระบบสำหรับ<br>นักจิตวิทยา</h1>
+      <p class="subtitle">เข้าสู่ระบบเพื่อรับฟังเสียงระบายของพนักงาน และส่งข้อความให้กำลังใจและคำแนะนำ</p>
+      <form id="counselorLoginForm" class="form-grid">
+        <div class="form-group"><label>รหัสผู้เชี่ยวชาญ (Counselor ID)</label><input type="text" id="counselorId" class="form-control" placeholder="เช่น COUNSELOR-01" required></div>
+        <div class="form-group"><label>รหัสผ่านเข้าใช้งาน (Password)</label><input type="password" id="counselorPassword" class="form-control" placeholder="กรอกรหัสผ่านนักจิตวิทยา" required></div>
+        <button type="submit" class="btn-submit">เข้าสู่ระบบตอบกลับ ↗</button>
+      </form>
+      <div class="privacy-notice"><strong>📌 รหัสทดสอบสำหรับสาธิต:</strong><br>ID: <code>COUNSELOR-01</code> | Password: <code>safehouse123</code></div>
+    </div>
+
+    <!-- ================= 5. ฝั่งนักจิตวิทยา: WORKBENCH DASHBOARD ================= -->
+    <div id="counselorWorkbenchView" style="display:none;">
+      <div class="user-bar">
+        <div>🩺 นักจิตวิทยา: <strong id="displayCounselor">COUNSELOR-01</strong></div>
+        <div><button class="btn-link" id="refreshCasesBtn">🔄 รีเฟรชข้อมูล</button> &nbsp;·&nbsp; <button class="btn-link btn-logout" id="counselorLogoutBtn">ออกจากระบบ</button></div>
+      </div>
+      <div class="eyebrow">Counselor Workbench</div>
+      <h1>รายการรับฟังเสียงระบาย</h1>
+      <p class="subtitle">รับฟังไฟล์เสียงจากพนักงาน ประเมินสภาวะอารมณ์ และพิมพ์ข้อความตอบกลับด้วยความเห็นอกเห็นใจ (Empathy)</p>
+      
+      <div id="casesContainer">
+        <div style="text-align:center; padding:30px; color:var(--muted);">⏳ กำลังโหลดรายการเคส...</div>
+      </div>
+    </div>
+
+    <div class="bottom-note">SAFEHOUSE · พื้นที่รับฟังอย่างเคารพและไม่ตัดสิน</div>
+  </div>
+</main>
+</div>
+
+<script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzuNC6oV1wRH1NXCS6MlsfQ4vJkS13lpBWwnBWEL4wyehKo8kO1yZ2MpwF91RlqHtT5/exec";
+
+    // Navigation & View Elements
+    const tabEmployeeBtn = document.getElementById('tabEmployeeBtn');
+    const tabCounselorBtn = document.getElementById('tabCounselorBtn');
+    const toplineText = document.getElementById('toplineText');
+    const stepTagText = document.getElementById('stepTagText');
+
+    const loginView = document.getElementById('loginView');
+    const recordingView = document.getElementById('recordingView');
+    const inboxView = document.getElementById('inboxView');
+    const counselorLoginView = document.getElementById('counselorLoginView');
+    const counselorWorkbenchView = document.getElementById('counselorWorkbenchView');
+
+    let currentRole = 'employee';
+    let isEmployeeLoggedIn = false;
+    let isCounselorLoggedIn = false;
+
+    // Switch Role Tabs
+    tabEmployeeBtn.onclick = () => {
+      currentRole = 'employee';
+      tabEmployeeBtn.classList.add('active');
+      tabCounselorBtn.classList.remove('active');
+      toplineText.innerText = "EMPLOYEE WELLBEING / PRIVATE SPACE";
+      stepTagText.innerText = "พื้นที่ส่วนตัว";
+      renderViews();
+    };
+
+    tabCounselorBtn.onclick = () => {
+      currentRole = 'counselor';
+      tabCounselorBtn.classList.add('active');
+      tabEmployeeBtn.classList.remove('active');
+      toplineText.innerText = "COUNSELOR WORKBENCH / CARE PORTAL";
+      stepTagText.innerText = "ระบบนักจิตวิทยา";
+      renderViews();
+    };
+
+    function renderViews() {
+      loginView.style.display = 'none';
+      recordingView.style.display = 'none';
+      inboxView.style.display = 'none';
+      counselorLoginView.style.display = 'none';
+      counselorWorkbenchView.style.display = 'none';
+
+      if (currentRole === 'employee') {
+        if (isEmployeeLoggedIn) {
+          recordingView.style.display = 'block';
+        } else {
+          loginView.style.display = 'block';
+        }
+      } else {
+        if (isCounselorLoggedIn) {
+          counselorWorkbenchView.style.display = 'block';
+          loadCounselorCases();
+        } else {
+          counselorLoginView.style.display = 'block';
+        }
+      }
+    }
+
+    // --- EMPLOYEE LOGIC ---
+    const loginForm = document.getElementById('loginForm');
+    const empLogoutBtn = document.getElementById('empLogoutBtn');
+    const checkInboxBtn = document.getElementById('checkInboxBtn');
+    const backToRecordBtn = document.getElementById('backToRecordBtn');
+    const displayDept = document.getElementById('displayDept');
+
+    loginForm.onsubmit = (e) => {
+      e.preventDefault();
+      displayDept.innerText = document.getElementById('deptCode').value;
+      isEmployeeLoggedIn = true;
+      renderViews();
+    };
+
+    empLogoutBtn.onclick = () => {
+      isEmployeeLoggedIn = false;
+      loginForm.reset();
+      renderViews();
+    };
+
+    checkInboxBtn.onclick = () => {
+      recordingView.style.display = 'none';
+      inboxView.style.display = 'block';
+    };
+
+    backToRecordBtn.onclick = () => {
+      inboxView.style.display = 'none';
+      recordingView.style.display = 'block';
+    };
+
+    // Audio Recording
+    let mediaRecorder, audioChunks = [], isRecording = false, morphedBlob = null;
+    const recordBtn = document.getElementById('recordBtn');
+    const micBox = document.getElementById('micBox');
+    const statusText = document.getElementById('statusText');
+    const resultSection = document.getElementById('resultSection');
+    const audioPlayer = document.getElementById('audioPlayer');
+    const sendBtn = document.getElementById('sendBtn');
+
+    recordBtn.onclick = async () => {
+      if (!isRecording) {
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          audioChunks = [];
+          mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
+          mediaRecorder.onstop = () => {
+            statusText.innerText = "กำลังเตรียมไฟล์เสียง...";
+            morphedBlob = new Blob(audioChunks, { type: mediaRecorder.mimeType || 'audio/webm' });
+            audioPlayer.src = URL.createObjectURL(morphedBlob);
+            resultSection.style.display = "block";
+            statusText.innerText = "บันทึกเสียงสำเร็จ สามารถฟังก่อนส่งได้";
+          };
+          mediaRecorder.start();
+          isRecording = true;
+          recordBtn.classList.add('recording'); micBox.classList.add('recording');
+          recordBtn.innerText = "⏹️"; statusText.innerText = "🔴 กำลังอัดเสียง... (กดเพื่อหยุด)";
+        } catch (err) { alert("เข้าถึงไมโครโฟนไม่ได้: " + err); }
+      } else {
+        mediaRecorder.stop(); isRecording = false;
+        recordBtn.classList.remove('recording'); micBox.classList.remove('recording');
+        recordBtn.innerText = "🎙️";
+      }
+    };
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    sendBtn.onclick = async () => {
+      if (!morphedBlob) return alert("กรุณาอัดเสียงระบายความในใจก่อนส่งนะครับ");
+      sendBtn.innerText = "⏳ กำลังบันทึกลงระบบ..."; sendBtn.disabled = true;
+
+      try {
+        const base64Audio = await blobToBase64(morphedBlob);
+        const payload = {
+          employee_id: document.getElementById('empId').value,
+          department_code: document.getElementById('deptCode').value,
+          audio_base64: base64Audio
+        };
+
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert(`✅ บันทึกและส่งเสียงสำเร็จ!\n\n📌 รหัสสำหรับติดตามคำตอบของคุณคือ: ${result.log_id}\n(จดรหัสนี้ไว้เพื่อนำมาค้นหาข้อความตอบกลับจากนักจิตวิทยา)`);
+          resultSection.style.display = "none";
+          statusText.innerText = "กดปุ่มเพื่อเริ่มบันทึกเสียง";
+          sendBtn.innerText = "ส่งเสียงเพื่อขอคำแนะนำ ↗";
+          sendBtn.disabled = false; morphedBlob = null;
+        } else {
+          alert("❌ เกิดข้อผิดพลาด: " + result.message);
+          sendBtn.disabled = false;
+        }
+      } catch (err) { alert("❌ เชื่อมต่อหลังบ้านไม่ได้: " + err); sendBtn.disabled = false; }
+    };
+
+    // Employee Search Reply
+    const searchBtn = document.getElementById('searchBtn');
+    const replyResult = document.getElementById('replyResult');
+
+    searchBtn.onclick = async () => {
+      const logId = document.getElementById('searchLogId').value.trim();
+      if (!logId) return alert("กรุณากรอกรหัส Log ID");
+      searchBtn.innerText = "⏳ กำลังค้นหา..."; searchBtn.disabled = true; replyResult.innerHTML = "";
+
+      try {
+        const response = await fetch(`${WEB_APP_URL}?log_id=${encodeURIComponent(logId)}`);
+        const data = await response.json();
+
+        if (data.status === "success") {
+          if (data.reply_text) {
+            replyResult.innerHTML = `
+              <div class="reply-card">
+                <h4>💚 ข้อความตอบกลับจากผู้เชี่ยวชาญ:</h4>
+                <p>${data.reply_text}</p>
+                <div style="margin-top:10px; font-size:11px; color:#15803D;">
+                  การประเมิน: <strong>${data.assessment || 'ทั่วไป'}</strong> | วันที่: ${data.created_date}
+                </div>
+              </div>`;
+          } else {
+            replyResult.innerHTML = `<div class="privacy-notice">⏳ <strong>รับรายการแล้ว:</strong> ผู้เชี่ยวชาญกำลังรับฟังไฟล์เสียงของคุณ และอยู่ระหว่างการพิมพ์ตอบกลับครับ</div>`;
+          }
+        } else {
+          replyResult.innerHTML = `<div class="privacy-notice" style="color:#DC2626;">❌ ไม่พบข้อมูลสำหรับรหัส Log ID นี้</div>`;
+        }
+      } catch (err) { alert("เกิดข้อผิดพลาด: " + err); }
+      finally { searchBtn.innerText = "ค้นหาข้อความ ↗"; searchBtn.disabled = false; }
+    };
+
+    // --- COUNSELOR LOGIC ---
+    const counselorLoginForm = document.getElementById('counselorLoginForm');
+    const counselorLogoutBtn = document.getElementById('counselorLogoutBtn');
+    const refreshCasesBtn = document.getElementById('refreshCasesBtn');
+    const displayCounselor = document.getElementById('displayCounselor');
+    const casesContainer = document.getElementById('casesContainer');
+
+    counselorLoginForm.onsubmit = (e) => {
+      e.preventDefault();
+      const cId = document.getElementById('counselorId').value.trim();
+      const cPass = document.getElementById('counselorPassword').value.trim();
+
+      if (cPass === "safehouse123") {
+        isCounselorLoggedIn = true;
+        displayCounselor.innerText = cId;
+        renderViews();
+      } else {
+        alert("❌ รหัสผ่านนักจิตวิทยาไม่ถูกต้อง (ใช้รหัสทดสอบ: safehouse123)");
+      }
+    };
+
+    counselorLogoutBtn.onclick = () => {
+      isCounselorLoggedIn = false;
+      counselorLoginForm.reset();
+      renderViews();
+    };
+
+    refreshCasesBtn.onclick = loadCounselorCases;
+
+    // Helper: Extract File ID from Google Drive URL
+    function getDriveFileId(driveUrl) {
+      if (!driveUrl || driveUrl === "No_Audio") return null;
+      const matchD = driveUrl.match(/\/d\/([a-zA-Z0-9_-]+)/);
+      if (matchD && matchD[1]) return matchD[1];
+      const matchId = driveUrl.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+      if (matchId && matchId[1]) return matchId[1];
+      const matchGen = driveUrl.match(/([a-zA-Z0-9_-]{25,})/);
+      if (matchGen && matchGen[1]) return matchGen[1];
+      return null;
+    }
+
+    async function loadCounselorCases() {
+      casesContainer.innerHTML = `<div style="text-align:center; padding:30px; color:var(--muted);">⏳ กำลังดึงข้อมูลเคสจากหลังบ้าน...</div>`;
+
+      try {
+        const response = await fetch(`${WEB_APP_URL}?action=get_all_logs`);
+        const result = await response.json();
+
+        if (result.status === "success" && result.data.length > 0) {
+          casesContainer.innerHTML = "";
+          result.data.forEach(item => {
+            const isReplied = item.status === "Replied";
+            const fileId = getDriveFileId(item.audio_url);
+
+            const card = document.createElement('div');
+            card.className = "case-card";
+            card.innerHTML = `
+              <div class="case-meta">
+                <div>
+                  <strong>📌 Log ID: ${item.log_id}</strong> &nbsp;·&nbsp;
+                  <span>แผนก: ${item.dept_code}</span> &nbsp;·&nbsp;
+                  <small style="color:var(--muted);">${item.created_date}</small>
+                </div>
+                <span class="badge-status ${isReplied ? 'status-replied' : 'status-pending'}">
+                  ${isReplied ? '✅ ตอบกลับแล้ว' : '⏳ รอการตอบกลับ'}
+                </span>
+              </div>
+
+              <div class="form-group">
+                <label>🎧 ฟังเสียงระบายจากพนักงาน:</label>
+                ${fileId ? `
+                  <div class="audio-player-box">
+                    <iframe src="https://drive.google.com/file/d/\${fileId}/preview" width="100%" height="70" style="border:none; border-radius:12px; background:#e8eee4; margin-bottom:8px;" allow="autoplay"></iframe>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                      <a href="https://drive.google.com/file/d/\${fileId}/view" target="_blank" class="audio-action-link">
+                        🔊 เปิดฟังบน Google Drive ↗
+                      </a>
+                      <a href="https://drive.google.com/uc?export=download&id=\${fileId}" target="_blank" class="audio-action-link">
+                        ⬇️ ดาวน์โหลดไฟล์เสียง (.wav)
+                      </a>
+                    </div>
+                  </div>
+                ` : `
+                  <p style="color:var(--red); font-size:12px; margin:4px 0;">ไม่พบไฟล์เสียง หรือไม่ได้อัดเสียงเข้ามา</p>
+                `}
+              </div>
+
+              ${isReplied ? `
+                <div class="reply-card">
+                  <h4>ข้อความตอบกลับที่ส่งแล้ว:</h4>
+                  <p>\${item.reply_text}</p>
+                  <div style="margin-top:8px; font-size:11px; color:var(--muted);">สภาวะที่ประเมิน: <strong>\${item.assessment || 'ทั่วไป'}</strong></div>
+                </div>
+              ` : `
+                <div class="form-group" style="margin-top:12px;">
+                  <label>📋 ประเมินสภาวะเบื้องต้น:</label>
+                  <select id="assessment_\${item.log_id}" class="form-control">
+                    <option value="ทั่วไป/ต้องการพื้นที่ระบาย">ทั่วไป / ต้องการพื้นที่ระบาย</option>
+                    <option value="ภาวะหมดไฟ (Burnout)">ภาวะหมดไฟ (Burnout)</option>
+                    <option value="ความเครียดสะสมระดับสูง">ความเครียดสะสมระดับสูง</option>
+                    <option value="กังวลเรื่องงาน/ความสัมพันธ์ในทีม">กังวลเรื่องงาน / ความสัมพันธ์ในทีม</option>
+                  </select>
+                </div>
+
+                <div class="form-group" style="margin-top:10px;">
+                  <label>💬 ข้อความตอบกลับพนักงาน:</label>
+                  <textarea id="reply_\${item.log_id}" class="form-control" placeholder="พิมพ์ข้อความตอบกลับให้กำลังใจ (Empathy)..."></textarea>
+                </div>
+
+                <button class="btn-submit" onclick="submitCounselorReply('\${item.log_id}')">ส่งข้อความตอบกลับพนักงาน ↗</button>
+              `}
+            `;
+            casesContainer.appendChild(card);
+          });
+        } else {
+          casesContainer.innerHTML = `<div style="text-align:center; padding:30px; color:var(--muted);">🎉 ยังไม่มีรายการเสียงระบายเข้ามาในขณะนี้</div>`;
+        }
+      } catch (err) {
+        casesContainer.innerHTML = `<div style="text-align:center; padding:30px; color:red;">❌ เกิดข้อผิดพลาดในการโหลดข้อมูล: ${err}</div>`;
+      }
+    }
+
+    async function submitCounselorReply(logId) {
+      const assessment = document.getElementById(`assessment_${logId}`).value;
+      const replyText = document.getElementById(`reply_${logId}`).value.trim();
+
+      if (!replyText) return alert("กรุณาพิมพ์ข้อความตอบกลับก่อนส่งครับ");
+      if (!confirm(`ยืนยันการส่งข้อความตอบกลับสำหรับรหัส ${logId} หรือไม่?`)) return;
+
+      try {
+        const payload = {
+          action: "submit_reply",
+          log_id: logId,
+          assessment: assessment,
+          reply_text: replyText
+        };
+
+        const response = await fetch(WEB_APP_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (result.status === "success") {
+          alert("✅ บันทึกและส่งข้อความตอบกลับเรียบร้อยแล้ว!");
+          loadCounselorCases();
+        } else {
+          alert("❌ เกิดข้อผิดพลาด: " + result.message);
+        }
+      } catch (err) { alert("❌ เกิดข้อผิดพลาด: " + err); }
+    }
+</script>
+</body>
+</html>
